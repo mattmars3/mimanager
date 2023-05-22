@@ -1,0 +1,30 @@
+[package]
+name = "mimanager"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# for times
+chrono = {version = "0.4.24", features = ["serde"]}
+
+# serialization
+serde_json = "1.0.96"
+serde = {version = "1.0.163", features = ["derive"]}
+
+# GUI
+iced = "0.9.0"
+
+# Command line interface
+inquire = {version = "0.6.2", features = ["date"]}
+
+# creating nice tables
+tabled = "0.12.0"
+
+# generate random numbers for ids
+rand = "0.8.5"
+
+spreadsheet-ods = "0.15.0"
+os_type = "2.6.0"
+

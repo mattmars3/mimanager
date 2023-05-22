@@ -1,0 +1,4 @@
+{
+  "storage_file_path": "assets/billed_hours.json",
+  "default_hourly_rate": "25"
+}
