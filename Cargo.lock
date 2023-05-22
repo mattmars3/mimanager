@@ -1341,21 +1341,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "invoice_manager"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "iced",
- "inquire",
- "os_type",
- "rand",
- "serde",
- "serde_json",
- "spreadsheet-ods",
- "tabled",
-]
-
-[[package]]
 name = "itoa"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1494,6 +1479,21 @@ dependencies = [
  "foreign-types 0.3.2",
  "log",
  "objc",
+]
+
+[[package]]
+name = "mimanager"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "iced",
+ "inquire",
+ "os_type",
+ "rand",
+ "serde",
+ "serde_json",
+ "spreadsheet-ods",
+ "tabled",
 ]
 
 [[package]]

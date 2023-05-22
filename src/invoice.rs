@@ -20,6 +20,10 @@ pub struct WorkDay {
 
 impl WorkDay {
     pub fn new(start_time: NaiveDateTime, end_time: NaiveDateTime, id: i64, rate: i32, accomplishments: String) -> WorkDay {
+        if end_time < start_time {
+            panic!("ERROR: end time should never be before start time!");
+        }
+
         WorkDay { start_time, end_time, id, rate, accomplishments } 
     }
 

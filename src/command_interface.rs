@@ -134,7 +134,17 @@ fn get_workday_from_user() -> Result<WorkDay, ()> {
     am_or_pms.push(if Confirm::new("PM?").prompt().unwrap() {"PM"} else {"AM"});
 
     let times = vec![start_time_string, end_time_string];
-    let mut naive_datetimes = times.iter().map(|time| date.and_time(NaiveTime::parse_from_str(time, "%H:%M").expect("Failed to parse times"))).collect::<Vec<NaiveDateTime>>();
+    let mut naive_datetimes: Vec<NaiveDateTime> = vec![];
+    for entered_time_ind in 0..times.len() {
+        // create a string with the PM or AM attached so it can detect it
+        let str_time = format!("{} {}", times.get(entered_time_ind).unwrap(), am_or_pms.get(entered_time_ind).unwrap());
+
+        // parse the times
+        let parsed_time = date.and_time(NaiveTime::parse_from_str(str_time.as_str(), "%I:%M %p").expect("Failed to parse time"));
+
+        // add them to the vector
+        naive_datetimes.push(parsed_time);
+    }
 
     // check if end time is earlier than start time
     // if it is then ask if it's the next day
@@ -156,13 +166,15 @@ fn get_workday_from_user() -> Result<WorkDay, ()> {
 
     // add twelve hours if PM
     for ind in 0..am_or_pms.len() {
+        /*
+        println!("{}", naive_datetimes[ind]);
         if am_or_pms[ind] == "PM" {
             naive_datetimes[ind] += twelve_hours;
         }
         if naive_datetimes[ind].format("%H").to_string() == "12".to_string() {
             naive_datetimes[ind] -= twelve_hours;
         }
-
+        */
         // add 24 hours if the end time is the next day
         if next_day && ind == 1 {
             naive_datetimes[ind] += twelve_hours + twelve_hours;
