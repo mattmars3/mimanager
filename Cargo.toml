@@ -28,3 +28,4 @@ rand = "0.8.5"
 spreadsheet-ods = "0.15.0"
 os_type = "2.6.0"
 
+icu_locid = "1.2.0"

@@ -3,7 +3,7 @@ use chrono::{NaiveDateTime, Utc, NaiveDate, NaiveTime, Duration};
 
 use tabled::{Table, settings::Style};
 
-use crate::{invoice::{WorkDay, InvoiceHistory}, config::get_config_val};
+use crate::{invoice::{WorkDay, InvoiceHistory}, config::get_config_val, spreadsheet::invoice_manager_to_ods};
 
 // print help message
 fn manage_command_line_arguments() {
@@ -14,6 +14,7 @@ Utilize multiple commands like the following:
     list => list recent workdays
     delete => delete a specific workday
     clear => clear all workdays
+    output => outputs an ods file of workdays
     ";
     for arg in args {
         if arg.to_lowercase().contains("help") {
@@ -31,8 +32,14 @@ pub fn run() {
         "list" => list_recent(),
         "clear" => clear_all(),
         "delete" => remove_by_id(),
+        "output" => output_to_ods(),
         _ => println!("Invalid Option"),
     };
+}
+
+fn output_to_ods() {
+    let invoice_history = InvoiceHistory::from_json();
+    invoice_manager_to_ods(invoice_history);
 }
 
 fn list_recent() {
@@ -149,7 +156,7 @@ fn get_workday_from_user() -> Result<WorkDay, ()> {
     // check if end time is earlier than start time
     // if it is then ask if it's the next day
     // if not, warn user that they can't enter negative hours
-    let next_day = Confirm::new("The next day?").prompt().unwrap();
+    let next_day = Confirm::new("The next day?").with_default(false).prompt().unwrap();
 
     ////////////////////////////////////////
     // check if hours are negative /////////
@@ -166,16 +173,6 @@ fn get_workday_from_user() -> Result<WorkDay, ()> {
 
     // add twelve hours if PM
     for ind in 0..am_or_pms.len() {
-        /*
-        println!("{}", naive_datetimes[ind]);
-        if am_or_pms[ind] == "PM" {
-            naive_datetimes[ind] += twelve_hours;
-        }
-        if naive_datetimes[ind].format("%H").to_string() == "12".to_string() {
-            naive_datetimes[ind] -= twelve_hours;
-        }
-        */
-        // add 24 hours if the end time is the next day
         if next_day && ind == 1 {
             naive_datetimes[ind] += twelve_hours + twelve_hours;
         }

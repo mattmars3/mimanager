@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use chrono::naive::NaiveDateTime;
 
-use serde_json::{to_string, from_str};
+use serde_json::{to_string, to_string_pretty, from_str};
 
 use crate::config::get_config_val;
 
@@ -125,7 +125,7 @@ impl InvoiceHistory {
     }
 
     pub fn write_to_json(&self) {
-        let json_invoices: String = to_string(&self.workdays).expect("Failed to serialize json invoices");        
+        let json_invoices: String = to_string_pretty(&self.workdays).expect("Failed to serialize json invoices");        
 
         let storage_file_path: String = get_config_val("storage_file_path");
 
