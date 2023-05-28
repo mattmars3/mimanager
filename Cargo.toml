@@ -29,3 +29,6 @@ spreadsheet-ods = "0.15.0"
 os_type = "2.6.0"
 
 icu_locid = "1.2.0"
+
+# get home directory for each platform
+dirs = "5.0.1"

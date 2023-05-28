@@ -1,13 +1,12 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::fs;
+use dirs::data_local_dir;
 
 fn get_platform_data_path() -> &'static Path {
-    let config_dir = if cfg!(windows) {
-        "%APPDATA%\\mimanager\\"
-    } else {
-        "/home/matt/.config/mimanager/"
-    };
-    Path::new(config_dir)
+    let mut data_dir: PathBuf = data_local_dir().unwrap();
+    data_dir.push("mimanager");
+    println!("{:?}", &data_dir);
+    data_dir.as_path()
 }
 
 // checks if there is an assets folder. Creates it otherwise
@@ -26,10 +25,16 @@ pub fn get_assets_folder() -> &'static Path {
 }
 
 // finish this function
-pub fn create_missing_directories_and_files() {}
+pub fn create_missing_directories_and_files() {
+
+}
 
 
 // create backups of the billed json file
 pub fn manage_backups() {
      
+}
+
+pub fn setup() {
+
 }

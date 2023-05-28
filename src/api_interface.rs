@@ -42,7 +42,6 @@ pub fn clear_workdays() {
     invoice_history.clear_all_workdays();
     invoice_history.write_to_json();
 }
-pub fn modify_workday() {}
 
 pub fn output_to_invoice() {}
 pub fn earnings_total() -> f64 {
