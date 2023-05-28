@@ -13,6 +13,7 @@ use std::path::{Path, PathBuf};
 use chrono::{Utc, TimeZone};
 
 
+/*
 
 pub fn invoice_manager_to_ods(inv_hist: InvoiceHistory) {
     let spreadsheet_output = get_config_val("spreadsheet_output");
@@ -51,3 +52,4 @@ pub fn invoice_manager_to_ods(inv_hist: InvoiceHistory) {
     println!("{}", file_path.to_string_lossy());
     write_ods(&mut spreadsheet, file_path);
 }
+*/

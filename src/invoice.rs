@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use chrono::naive::NaiveDateTime;
+use chrono::{naive::NaiveDateTime, Duration};
 
 use serde_json::{to_string, to_string_pretty, from_str};
 
@@ -14,12 +14,12 @@ pub struct WorkDay {
     start_time: NaiveDateTime,
     end_time: NaiveDateTime,
     id: i64,
-    rate: i32,
+    rate: f64,
     accomplishments: String,
 }
 
 impl WorkDay {
-    pub fn new(start_time: NaiveDateTime, end_time: NaiveDateTime, id: i64, rate: i32, accomplishments: String) -> WorkDay {
+    pub fn new(start_time: NaiveDateTime, end_time: NaiveDateTime, id: i64, rate: f64, accomplishments: String) -> WorkDay {
         if end_time < start_time {
             panic!("ERROR: end time should never be before start time!");
         }
@@ -38,7 +38,7 @@ impl WorkDay {
 
     // returns the amount of money made for a day
     pub fn pay_for_day(&self) -> f64 {
-        let rate_per_min: f64 = self.rate as f64 / 60f64;
+        let rate_per_min: f64 = self.rate / 60f64;
         let pay_decimal = self.work_time().2 as f64 * rate_per_min;
         let rounded_pay = (pay_decimal * 100.0).round() / 100.0;
         rounded_pay
@@ -53,6 +53,33 @@ impl WorkDay {
 
     pub fn get_id(&self) -> i64 {
         self.id
+    }
+
+    pub fn validated_new(unparsed_start_date: String, unparsed_end_date: String, unparsed_rate: String, accomplishments: String) -> Result<WorkDay, ()> {
+        // check if end date is later than start
+        
+        // create sample time
+        let sample = NaiveDateTime::from_timestamp_millis(0).unwrap();
+        let sample_dur: Duration = Duration::days(1);
+        let later_sample = sample.checked_add_signed(sample_dur).unwrap();
+        
+
+        let start_date: NaiveDateTime = unparsed_start_date.parse().unwrap_or(later_sample);
+        let end_date: NaiveDateTime = unparsed_end_date.parse().unwrap_or(sample);
+        if start_date > end_date {
+            return Err(());
+        }
+
+        match unparsed_rate.parse::<f64>() {
+            Ok(rate) => {
+                return Ok(WorkDay::new(start_date, end_date, WorkDay::generate_id(), rate, accomplishments));
+            },
+            Err(_) => {
+                return Err(());
+            }
+        }
+        
+        // calculate number of hours
     }
 
     // nicely prints the workday for debug purposes
@@ -100,6 +127,7 @@ impl InvoiceHistory {
         self.workdays.push(wd);
     }
 
+
     pub fn total_pay(&self) -> f64 {
         let mut total = 0f64;
         for workday in &self.workdays {
@@ -119,7 +147,14 @@ impl InvoiceHistory {
                 "[]".to_string()
             },
         };
-        let workdays: Vec<WorkDay> = from_str(&file_content).expect("Failed to parse file content");
+        // let workdays: Vec<WorkDay> = from_str(&file_content).expect("Failed to parse file content");
+        let workdays: Vec<WorkDay> = match from_str(&file_content) {
+            Ok(content) => content,
+            Err(_) => {
+                let empt_vec: Vec<WorkDay> = Vec::new();
+                empt_vec
+            }
+        };
         let invoice_obj = InvoiceHistory::new(workdays);
         invoice_obj
     }

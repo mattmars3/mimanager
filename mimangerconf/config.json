@@ -1,0 +1,5 @@
+{
+  "storage_file_path": "/home/matt/.config/mimanager/billed_hours.json",
+  "default_hourly_rate": "25",
+  "spreadsheet_output": "/home/matt/.config/mimanager/spreadsheets/"
+}

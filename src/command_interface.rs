@@ -3,7 +3,8 @@ use chrono::{NaiveDateTime, Utc, NaiveDate, NaiveTime, Duration};
 
 use tabled::{Table, settings::Style};
 
-use crate::{invoice::{WorkDay, InvoiceHistory}, config::get_config_val, spreadsheet::invoice_manager_to_ods};
+use crate::{invoice::{WorkDay, InvoiceHistory}, config::get_config_val};
+use crate::spreadsheet;
 
 // print help message
 fn manage_command_line_arguments() {
@@ -32,15 +33,17 @@ pub fn run() {
         "list" => list_recent(),
         "clear" => clear_all(),
         "delete" => remove_by_id(),
-        "output" => output_to_ods(),
+        // "output" => output_to_ods(),
         _ => println!("Invalid Option"),
     };
 }
 
+/*
 fn output_to_ods() {
     let invoice_history = InvoiceHistory::from_json();
     invoice_manager_to_ods(invoice_history);
 }
+*/
 
 fn list_recent() {
     let invoice_history = InvoiceHistory::from_json();
@@ -164,7 +167,7 @@ fn get_workday_from_user() -> Result<WorkDay, ()> {
 
     let default_rate = get_config_val("default_hourly_rate");
     let rate_string = Text::new("What is your hourly rate?").with_default(&default_rate).prompt().unwrap();
-    let rate = rate_string.parse::<i32>().expect("Unable to parse hourly rate");
+    let rate = rate_string.parse::<f64>().expect("Unable to parse hourly rate");
     
     let accomplishments = Text::new("What did you accomplish today? (Optional)")
         .prompt()

@@ -15,6 +15,15 @@ use crate::setup::get_assets_folder;
 use std::path::PathBuf;
 
 pub fn get_config_val(conf_val: &str) -> String {
+    let config = read_config_file();
+
+    let config_value: Value = from_str(&config).expect("Unparsable JSON. Error in the configuration file"); 
+    let value: String = config_value[conf_val].to_string();
+    let final_val = &value[1..value.len()-1];
+    final_val.to_string()
+}
+
+fn read_config_file() -> String {
     let mut config_path_buf = PathBuf::from(get_assets_folder());
     config_path_buf.push("config.json");
 
@@ -27,13 +36,22 @@ pub fn get_config_val(conf_val: &str) -> String {
                 Err(e) => println!("Failed to write blank dictionary to config path. {}", e),
             }
             println!("Error in config value: {}", e);
-            "{}".to_string()
+            "{
+                \"storage_file_path\": \"/home/matt/.config/mimanager/billed_hours.json\",
+                \"default_hourly_rate\": \"25\",
+                \"spreadsheet_output\": \"/home/matt/.config/mimanager/spreadsheets/\"
+            }".to_string()
         }
     };
-    let config_value: Value = from_str(&config).expect("Unparsable JSON. Error in the configuration file"); 
-    let value: String = config_value[conf_val].to_string();
-    let final_val = &value[1..value.len()-1];
-    final_val.to_string()
+    config
+}
+
+pub fn set_config_value(val: &str) -> Result<(), ()> {
+    let mut config_path_buf = PathBuf::from(get_assets_folder());
+    config_path_buf.push("config.json");
+     
+    let existing_data: String = read_config_file();
+    Ok(())
 }
 
 

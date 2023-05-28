@@ -25,6 +25,9 @@ pub fn get_assets_folder() -> &'static Path {
     get_platform_data_path()
 }
 
+// finish this function
+pub fn create_missing_directories_and_files() {}
+
 
 // create backups of the billed json file
 pub fn manage_backups() {

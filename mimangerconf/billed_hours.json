@@ -1,0 +1,51 @@
+[
+  {
+    "start_time": "2023-05-17T12:00:00",
+    "end_time": "2023-05-17T14:15:00",
+    "id": 416528,
+    "rate": 25,
+    "accomplishments": ""
+  },
+  {
+    "start_time": "2023-05-17T16:15:00",
+    "end_time": "2023-05-17T18:25:00",
+    "id": 347547,
+    "rate": 25,
+    "accomplishments": ""
+  },
+  {
+    "start_time": "2023-05-17T23:00:00",
+    "end_time": "2023-05-18T00:00:00",
+    "id": 677446,
+    "rate": 25,
+    "accomplishments": ""
+  },
+  {
+    "start_time": "2023-05-19T10:30:00",
+    "end_time": "2023-05-19T12:00:00",
+    "id": 179261,
+    "rate": 25,
+    "accomplishments": ""
+  },
+  {
+    "start_time": "2023-05-19T13:00:00",
+    "end_time": "2023-05-19T14:00:00",
+    "id": 500938,
+    "rate": 25,
+    "accomplishments": ""
+  },
+  {
+    "start_time": "2023-05-19T14:00:00",
+    "end_time": "2023-05-19T15:30:00",
+    "id": 184756,
+    "rate": 25,
+    "accomplishments": ""
+  },
+  {
+    "start_time": "2023-05-22T10:15:00",
+    "end_time": "2023-05-22T12:00:00",
+    "id": 190164,
+    "rate": 25,
+    "accomplishments": ""
+  }
+]
