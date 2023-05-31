@@ -4,7 +4,6 @@ use chrono::{NaiveDateTime, Utc, NaiveDate, NaiveTime, Duration};
 use tabled::{Table, settings::Style};
 
 use crate::{invoice::{WorkDay, InvoiceHistory}, config::get_config_val};
-use crate::spreadsheet;
 
 // print help message
 fn manage_command_line_arguments() {

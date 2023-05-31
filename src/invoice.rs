@@ -3,7 +3,7 @@ use chrono::{naive::NaiveDateTime, Duration};
 
 use serde_json::{to_string, to_string_pretty, from_str};
 
-use crate::config::get_config_val;
+use crate::{config::get_config_val, setup::get_assets_folder};
 
 use tabled::{Tabled, builder::Builder, settings::Style};
 
@@ -78,8 +78,6 @@ impl WorkDay {
                 return Err(());
             }
         }
-        
-        // calculate number of hours
     }
 
     // nicely prints the workday for debug purposes
@@ -137,7 +135,8 @@ impl InvoiceHistory {
     }
 
     pub fn from_json() -> InvoiceHistory {
-        let storage_file_path: String = get_config_val("storage_file_path");
+        let mut storage_file_path = get_assets_folder();
+        storage_file_path.push("billed_hours.json");
 
         let file_content = match std::fs::read_to_string(&storage_file_path) {
             Ok(data) => data,
@@ -162,7 +161,8 @@ impl InvoiceHistory {
     pub fn write_to_json(&self) {
         let json_invoices: String = to_string_pretty(&self.workdays).expect("Failed to serialize json invoices");        
 
-        let storage_file_path: String = get_config_val("storage_file_path");
+        let mut storage_file_path = get_assets_folder();
+        storage_file_path.push("billed_hours.json");
 
         match std::fs::write(storage_file_path, json_invoices) {
             Ok(_) => (),

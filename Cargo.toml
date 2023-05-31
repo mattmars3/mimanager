@@ -32,3 +32,4 @@ icu_locid = "1.2.0"
 
 # get home directory for each platform
 dirs = "5.0.1"
+log = "0.4.18"
